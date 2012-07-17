@@ -1,0 +1,131 @@
+<?xml version="1.0" ?>
+<project name="rostock" default="compile">
+
+    <!-- initialize some props -->
+    <property name="proj" value="rostock" />
+    <property name="exec.path.oscad" value="openscad" />
+    <tstamp>
+        <format property="DATE_STAMP" pattern="yyyy-MM-dd" />
+    	<format property="DATETIME_STAMP" pattern="yyyy-MM-dd_HHmm" />
+    </tstamp>
+
+    <!-- read props file -->
+	<condition property="isUnix" value="unix." else="">
+      <os family="unix" />
+    </condition>
+    <property file="${isUnix}settings.properties" />
+	<echo message="Load property file: ${isUnix}settings.properties" />
+
+	<target name="pkg_default_files">
+		<property name="tar-filename"  value="${proj}-local-sites-default-files"/>
+        <property name="scp.name" value="${remote.user}:${remote.pwd}@${remote.host}:${remote.webpath}/sites/default/files/" />
+
+        <echo message="Pkg files..." />
+        <tar destfile="${tar-filename}.tar">
+            <tarfileset dir="${local.webpath}/sites/default/files/" prefix="">
+                <exclude name="**/.svn" />
+            </tarfileset>
+        </tar>
+
+        <gzip src="${tar-filename}.tar" destfile="${tar-filename}.tgz" />
+        <echo message="done pkg" />
+	</target>
+
+	<target name="-pack_no_files">
+        <echo message="Pack files..." />
+        <tar destfile="${proj}.tar">
+            <tarfileset dir="${www}" prefix="${proj}">
+                <exclude name="sites/default/settings.base" />
+                <exclude name=".htaccess.base" />
+                <exclude name="**/.svn" />
+                <exclude name="files/**" />
+            </tarfileset>
+        </tar>
+
+        <gzip src="${proj}.tar" destfile="${proj}.tgz" />
+        <echo message="done" />
+    </target>
+
+    <target name="pack_everything">
+        <echo message="Pack entire project..." />
+        <property name="pack" value="${proj}_${DATE_STAMP}" />
+
+        <tar destfile="${pack}.tar">
+            <tarfileset dir="${basedir}/.." prefix="${proj}">
+                <exclude name="**/.svn/**" />
+                <exclude name=".cache/**" />
+                <exclude name="scripts/**/*.tar" />
+                <exclude name="scripts/**/*.tgz" />
+            </tarfileset>
+        </tar>
+
+        <gzip src="${pack}.tar" destfile="${pack}.tgz" />
+        <echo message="done" />
+    </target>
+
+    <target name="settings_local">
+		<mkdir dir="${www}/sites/default/files" />
+        <echo message="Configure LOCAL settings..." />
+        <antcall target="-settings">
+            <param name="set.user" value="${db.user}" />
+            <param name="set.pwd" value="${db.pwd}" />
+            <param name="set.host" value="${db.host}" />
+            <param name="set.name" value="${db.name}" />
+            <param name="set.baseurl" value="${local.baseurl}" />
+        </antcall>
+    </target>
+
+    <target name="settings_truelocal">
+		<mkdir dir="${www}/sites/default/files" />
+        <echo message="Configure TRUELOCAL settings..." />
+        <antcall target="-settings">
+            <param name="set.user" value="${truelocal.db.user}" />
+            <param name="set.pwd" value="${truelocal.db.pwd}" />
+            <param name="set.host" value="${truelocal.db.host}" />
+            <param name="set.name" value="${truelocal.db.name}" />
+            <param name="set.baseurl" value="${local.baseurl}" />
+        </antcall>
+    </target>
+
+    <target name="settings_remote">
+        <echo message="Configure REMOTE settings..." />
+        <antcall target="-settings">
+            <param name="set.user" value="${db.user}" />
+            <param name="set.pwd" value="${db.pwd}" />
+            <param name="set.host" value="${remote.db.host}" />
+            <param name="set.name" value="${db.name}" />
+            <param name="set.baseurl" value="${remote.baseurl}" />
+        </antcall>
+    </target>
+
+    <target name="settings_live">
+        <echo message="Configure LIVE settings..." />
+        <antcall target="-settings">
+            <param name="set.user" value="${remote.db.user}" />
+            <param name="set.pwd" value="${remote.db.pwd}" />
+            <param name="set.host" value="${remote.db.host}" />
+            <param name="set.name" value="${remote.db.name}" />
+            <param name="set.baseurl" value="${remote.baseurl}" />
+        </antcall>
+    </target>
+
+    <target name="-settings">
+        <echo message="Configure settings.php and .htaccess..." />
+
+        <!-- settings.php -->
+        <property name="settings" value="${www}/sites/default/settings" />
+        <copy file="${settings}.base" tofile="${settings}.php" overwrite="true" />
+        <replace file="${settings}.php" token="!db.user!" value="${set.user}" />
+        <replace file="${settings}.php" token="!db.pwd!" value="${set.pwd}" />
+        <replace file="${settings}.php" token="!db.host!" value="${set.host}" />
+        <replace file="${settings}.php" token="!db.name!" value="${set.name}" />
+        <replace file="${settings}.php" token="!baseurl!" value="${set.baseurl}" />
+
+        <!-- .htaccess.php -->
+        <property name="htaccess" value="${www}/.htaccess" />
+        <copy file="${htaccess}.base" tofile="${htaccess}" overwrite="true" />
+        <replace file="${htaccess}" token="!baseurl!" value="${set.baseurl}" />
+        
+        <echo message="done" />
+    </target>
+</project>

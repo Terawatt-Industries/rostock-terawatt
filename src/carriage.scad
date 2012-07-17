@@ -1,5 +1,6 @@
-width = 76;
+width = 90;
 height = 24;
+bearing_hole_id = 16.1;
 
 offset = 25;
 cutout = 13;
@@ -38,10 +39,39 @@ module lm8uu_mount(d, h) {
   union() {
     difference() {
       intersection() {
-        cylinder(r=11, h=h, center=true);
+        cylinder(r=bearing_hole_id / 2 + 2, h=h, center=true);
         translate([0, -8, 0]) cube([19, 13, h+1], center=true);
       }
       cylinder(r=d/2, h=h+1, center=true);
+    }
+  }
+}
+
+module acetal_bearing_mount(d, h) {
+  union() {
+    difference() {
+      hull() {
+        cylinder(r=bearing_hole_id / 2 + 2, h=h, center=true);
+        translate([0, bearing_hole_id - 3, 0]) cube([bearing_hole_id * 5 / 6, 10, h], center=true);
+      }
+      cylinder(r=d/2, h=h+1, center=true);
+      // cutout support bracket
+      translate([0, bearing_hole_id - 3.5, 0]) cube([4, 12, h+1], center=true);
+      translate([0, bearing_hole_id - 3, 7])
+      // cutout screw holes
+      rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true, $fn=12);
+      translate([0, bearing_hole_id - 3, -7])
+      rotate([0, 90, 0]) cylinder(r=1.55, h=80, center=true, $fn=12);
+      // washer cutouts to keep screws parallel
+      translate([bearing_hole_id * 5 / 12 + 1, bearing_hole_id - 3, 7])
+      rotate([0, 90, 0]) cylinder(r=3.5, h=2, center=true, $fn=12);
+      translate([bearing_hole_id * 5 / 12 + 1, bearing_hole_id - 3, -7])
+      rotate([0, 90, 0]) cylinder(r=3.5, h=2, center=true, $fn=12);
+      // captured nut holes
+      translate([bearing_hole_id - bearing_hole_id * 4 / 3 - 3, bearing_hole_id - 3, 7])
+      rotate([0, 90, 0]) cylinder(r=3.3, h=6, center=true, $fn=6);
+      translate([bearing_hole_id - bearing_hole_id * 4 / 3 - 3, bearing_hole_id - 3, -7])
+      rotate([0, 90, 0]) cylinder(r=3.3, h=6, center=true, $fn=6);
     }
   }
 }
@@ -65,7 +95,7 @@ module belt_mount() {
 module carriage() {
   union() {
     for (x = [-30, 30]) {
-      translate([x, 0, 0]) lm8uu_mount(d=15, h=24);
+      translate([x, 0, 0]) acetal_bearing_mount(d=bearing_hole_id, h=24);
     }
     belt_mount();
     difference() {
@@ -82,9 +112,10 @@ module carriage() {
         translate([x, 0, 0])
           cylinder(r=8, h=height+1, center=true);
         // Zip tie tunnels.
+/*
         for (z = [-height/2+4, height/2-4])
           translate([x, 0, z])
-            cylinder(r=13, h=3, center=true);
+            cylinder(r=13, h=3, center=true); */
       }
     }
   }
