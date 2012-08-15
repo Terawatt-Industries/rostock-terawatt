@@ -1,14 +1,17 @@
-use <carriage.scad>;
+use <functions.scad>;
 
 cutout = 12.5;
 inset = 6;
+parallel_joint_width = 90;
+
+translate([0, 0, 4]) platform();
 
 module platform() {
   difference() {
     union() {
       for (a = [0:120:359]) {
         rotate([0, 0, a]) {
-          translate([0, -33, 0]) parallel_joints();
+          translate([0, -33, 0]) parallel_joints(parallel_joint_width, cutout, 25, 0);
           // Close little triangle holes.
           translate([0, 31, 0]) cylinder(r=5, h=8, center=true);
           // Holder for adjustable bottom endstops.
@@ -29,5 +32,3 @@ module platform() {
     }
   }
 }
-
-translate([0, 0, 4]) platform();

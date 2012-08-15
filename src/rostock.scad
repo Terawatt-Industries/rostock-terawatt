@@ -14,8 +14,8 @@ tower_radius = 154;
 joint_radius = 108;
 motor_radius = 165;
 carriage_z = 300;
-rod_length = 250;
-z0 = 120;
+rod_length = 230;
+z0 = 135;
 
 module smooth_rod(z) {
 	color(steel) cylinder(r=4, h=762);

@@ -1,7 +1,7 @@
 use <jaws.scad>;
 
-l = 250;
-h = 7;
+l = 220;
+h = 12.5;
 r = h/2 / cos(30);
 
 // Wipe nozzle after long travel moves.
