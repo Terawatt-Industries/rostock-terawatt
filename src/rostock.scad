@@ -10,12 +10,12 @@ use <rod.scad>;
 aluminum = [0.9, 0.9, 0.9];
 steel = [0.8, 0.8, 0.9];
 
-tower_radius = 154;
+tower_radius = 147;
 joint_radius = 108;
 motor_radius = 165;
 carriage_z = 300;
 rod_length = 230;
-z0 = 135;
+z0 = 110;
 
 module smooth_rod(z) {
 	color(steel) cylinder(r=4, h=762);
@@ -52,11 +52,11 @@ module rod_pair(x, y, rotate_z, elevation, azimuth) {
 
 translate([0, 0, -160]) {
 	for (a = [0:120:359]) rotate([0, 0, a]) {
-		tower(215);
-		rod_pair(0, 0, a, elevation=67, azimuth=0);
+		tower(200);
+		rod_pair(0, 0, a, elevation=64, azimuth=0);
 	}
 
-	translate([0, 0, 100]) rotate([0, 0, 60]) platform();
+	translate([0, 0, 105]) rotate([0, 0, 60]) platform();
 
 	% translate([0, 0, 58])
 		  cylinder(r=tower_radius*1.11, h=12, center=true, $fn=6);

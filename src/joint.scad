@@ -11,8 +11,8 @@ module stumpy() {
 module middle() {
   difference() {
     union() {
-      translate([-2, 0, 0]) stumpy();
-      translate([2, 0, 0]) stumpy();
+      translate([-6.5, 0, 0]) stumpy();
+      translate([6.5, 0, 0]) stumpy();
       rotate([0, 0, 90]) stumpy();
     }
     rotate([90, 0, 0]) cylinder(r=1.5, h=30, center=true, $fn=12);

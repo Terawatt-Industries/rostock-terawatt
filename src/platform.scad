@@ -1,6 +1,6 @@
 use <functions.scad>;
 
-cutout = 12.5;
+cutout = 13;
 inset = 6;
 parallel_joint_width = 90;
 
