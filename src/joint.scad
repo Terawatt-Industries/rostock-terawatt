@@ -1,20 +1,23 @@
-h = 7;
-r = h/2 / cos(30);
+len = 13;
+width = 11;
+height = 11;
+r = height / 2 - (height * 0.1);
 
-module stumpy() {
+module stumpy(l = 4, h = 8) {
   rotate([0, 90, 0]) rotate([0, 0, 30]) intersection() {
-    cylinder(r=r, h=8, center=true, $fn=6);
-    sphere(r=5.1, $fn=24);
+    cylinder(r = h / 2, h = l, center=true, $fn=6);
+    sphere(r = l * cos(30), $fn=24);
   }
 }
 
 module middle() {
   difference() {
     union() {
-      translate([-6.5, 0, 0]) stumpy();
-      translate([6.5, 0, 0]) stumpy();
-      rotate([0, 0, 90]) stumpy();
+      translate([-len / 4, 0, 0]) stumpy(len / 2, height);
+      translate([len / 4, 0, 0]) stumpy(len / 2, height);
+      rotate([0, 0, 90]) stumpy(width, height);
     }
+	// thru holes
     rotate([90, 0, 0]) cylinder(r=1.5, h=30, center=true, $fn=12);
     rotate([0, 90, 0]) cylinder(r=1.5, h=30, center=true, $fn=12);
   }

@@ -7,10 +7,10 @@ r = h/2 / cos(30);
 // Wipe nozzle after long travel moves.
 module collar() {
   difference() {
-    cube([4, 20, h], center=true);
-    cube([2, 18, h+1], center=true);
+    cube([6, 20, h], center=true);
+    cube([2, 16, h+1], center=true);
     rotate([0, 90, 0]) rotate([0, 0, 30])
-      cylinder(r=r + 1.5, h=5, center=true, $fn=6);
+      cylinder(r=r + 1.75, h=7, center=true, $fn=6);
   }
 }
 
@@ -27,7 +27,7 @@ module wipers() {
   translate([l/2 + 2, 0, 0]) cubicle();
   translate([-l/2 - 2, 0, 0]) cubicle();
   translate([l/2 - 25, 0, 0]) collar();
-  translate([-l/2 + 25, 0, 0]) collar();
+  translate([-l/2 + 30, 0, 0]) collar();
 }
 
 // Rod with two Y shaped rod ends.

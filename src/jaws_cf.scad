@@ -26,7 +26,7 @@ module jaws() {
       rotate([0, 0, 30]) cylinder(r=co / 2 - 0.1, h = co, center=true, $fn=6);
     rotate([90, 0, 0]) cylinder(r=1.55, h=40, center=true, $fn=12);
     translate([21, 0, 0]) rotate([0, 90, 0])
-      cylinder(r=3.25, h=20, center=true, $fn=12); 
+      cylinder(r=4, h=20, center=true, $fn=12); 
   }
 }
 
