@@ -1,4 +1,5 @@
 <?xml version="1.0" ?>
+<!-- OpenSCAD ANT Build by Free Beachler, Longevity Software DBA Terawatt Industries is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. -->
 <project name="rostock" default="compile_scad_to_stl" xmlns:fl="antlib:it.haefelinger.flaka">
 
     <!-- initialize some props -->
