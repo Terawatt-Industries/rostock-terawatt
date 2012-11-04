@@ -1,0 +1,1 @@
+cp -R ~/dev/reprap/githubiverse-template/_config.yml ~/dev/reprap/githubiverse-template/index.md ~/dev/reprap/githubiverse-template/_includes ~/dev/reprap/githubiverse-template/_layouts ~/dev/reprap/githubiverse-template/css ~/dev/reprap/githubiverse-template/img ~/dev/reprap/githubiverse-template/js .

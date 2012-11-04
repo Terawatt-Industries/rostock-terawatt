@@ -1,0 +1,38 @@
+## githubiverse-template by Gary Hodgson
+## license: GPL3
+##
+## The data below is left as an example.  Please change each entry to match your requirements. 
+## 
+
+## Uses distinct namespace. Jekyll settings should go at the root level.
+githubiverse:
+    ## Metadata
+    title: "Terawatt Rostock Delta 3D Printer"
+    author: Terawatt Industries
+    license: GPLv3 for SCAD.  Creative Commons 3.0 ShareAlike + Non-Commercial for ANT script (build.xml + build profiles).
+    tags: [pick and place,php,3d printer,rostock,delta,delta robot,]
+
+    ## Github project parameters.
+    github:
+        base: https://github.com/
+        user: Terawatt-Industries
+        repository: yet-another-repository
+        branch: master
+
+    ## The names of directories where any images, source and stl files associated with the project can be found.
+    img_dir: img
+    stl_dir: dist
+    src_dir: src
+
+    ## The headline image
+    lead_image: test-jig.png
+    show_lead_image: true
+
+    ## Optional. When uncommented appends the content of the file defined here to the project description.  Any text in index.md, after the yaml header, will be shown first.
+    description_file: README.md
+
+    ## Preview the first STL in the list when the page loads.
+    autoload_stl: true
+
+    ## Show a github "fork me" ribbon in the top righthand corner of the page.
+    show_forkme_ribbon: true
