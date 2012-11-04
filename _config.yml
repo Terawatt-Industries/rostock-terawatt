@@ -16,7 +16,7 @@ githubiverse:
     github:
         base: https://github.com/
         user: Terawatt-Industries
-        repository: yet-another-repository
+        repository: rostock-terawatt
         branch: master
 
     ## The names of directories where any images, source and stl files associated with the project can be found.
