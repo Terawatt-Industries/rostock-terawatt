@@ -1,8 +1,8 @@
 use <functions.scad>;
 
-width = 90;
+width = 80;
 height = 24;
-bearing_hole_id = 16.1;
+bearing_hole_id = 15.1;
 
 offset = 25;
 cutout = 13;
@@ -20,7 +20,7 @@ module lm8uu_mount(d, h) {
   }
 }
 
-module acetal_bearing_mount(d, h) {
+module acetal_bushing_mount(d, h) {
   union() {
     difference() {
       hull() {
@@ -65,36 +65,42 @@ module belt_mount() {
   }
 }
 
-module carriage() {
+module carriage(acetal = false) {
   union() {
     for (x = [-30, 30]) {
-      translate([x, 0, 0]) acetal_bearing_mount(d=bearing_hole_id, h=24);
+      translate([x, 0, 0])
+        if (acetal) {
+          acetal_bushing_mount(d=bearing_hole_id, h=24);
+        } else {
+          lm8uu_mount(d=bearing_hole_id, h=24);
+        }
     }
-    belt_mount();
-    difference() {
-      union() {
-        translate([0, -5.6, 0])
-          cube([50, 5, height], center=true);
-        translate([0, -22, -height/2+4])
-          parallel_joints(width, cutout, offset, 16, true);
-      }
-      // Screw hole for adjustable top endstop.
-      translate([15, -16, -height/2+4])
-        cylinder(r=1.5, h=20, center=true, $fn=12);
-      for (x = [-30, 30]) {
-        translate([x, 0, 0])
-          cylinder(r=8, h=height+1, center=true);
+  }
+  belt_mount();
+  difference() {
+    union() {
+      translate([0, -5.6, 0])
+        cube([50, 5, height], center=true);
+      translate([0, -28, -height/2+4])
+        parallel_joints(width, cutout, offset, true, true, 28);
+    }
+    // Screw hole for adjustable top endstop.
+    translate([15, -16, -height/2+4])
+      cylinder(r=1.5, h=20, center=true, $fn=12);
+    for (x = [-30, 30]) {
+      translate([x, 0, 0])
+        cylinder(r=8, h=height+1, center=true);
+        if (!acetal) {
         // Zip tie tunnels.
-/*
         for (z = [-height/2+4, height/2-4])
-          translate([x, 0, z])
-            cylinder(r=13, h=3, center=true); */
-      }
+        translate([x, 0, z])
+          cylinder(r=13, h=3, center=true);
+         }
     }
   }
 }
 
-translate([0, 0, height/2]) carriage();
+translate([0, 0, height/2]) carriage(acetal = true);
 
 // Uncomment the following lines to check endstop alignment.
 // use <idler_end.scad>;

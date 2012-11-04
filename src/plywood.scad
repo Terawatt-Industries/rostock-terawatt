@@ -4,7 +4,7 @@ radius3 = radius2/cos(30)/2;
 offset = 150-radius;
 thickness = 9;
 
-module plywood() {
+module plywood(slotted = false) {
   difference() {
     intersection() {
       cube([2*radius, 300, 9], center=true);
@@ -19,6 +19,14 @@ module plywood() {
 	  cylinder(r=2.2, h=20, center=true, $fn=12);
       }
     }
+	if (slotted) {
+		translate([125, -35, -thickness]) rotate([0, 0, 0]) cube([25, 170, thickness * 2]);
+		translate([0, -25, -thickness]) rotate([0, 0, 0]) cube([5, 140, thickness * 2]);
+		rotate([0, 0, 90]) {
+			translate([-130, -80, -thickness]) rotate([0, 0, 0]) cube([25, 160, thickness * 2]);
+			translate([5, 10, -thickness]) rotate([0, 0, 0]) cube([5, 140, thickness * 2]);
+		}
+	}
   }
 }
 
@@ -27,7 +35,7 @@ for (a = [0, 120, 240]) rotate([0, 0, a])
 translate([0, radius3, 0]) jig();
 
 
-translate([0, 0, thickness/2]) plywood();
+translate([0, 0, thickness/2]) plywood(true);
 
 % translate([0, offset, 0]) cylinder(r=radius2, h=10, center=true, $fn=6);
 

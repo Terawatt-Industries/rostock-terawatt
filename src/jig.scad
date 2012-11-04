@@ -1,3 +1,4 @@
+// FIXME for 230mm arms we may need to shorten this, I think 130/cos(30) = 150
 radius = 175; // pretty close to 150/cos(30)
 radius2 = radius/cos(30);
 radius3 = radius2/cos(30)/2;
